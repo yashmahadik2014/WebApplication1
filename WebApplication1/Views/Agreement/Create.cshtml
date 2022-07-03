@@ -1,0 +1,87 @@
+﻿@model WebApplication1.Entity.Agreement
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/JS/Agreement.js"></script>
+<script src="~/Scripts/jquery-ui-1.13.1.min.js"></script>
+
+<h2>Create</h2>
+
+<div class="container">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="row">
+            <h5 class="text-success"  style="background-color:yellow;">"@TempData["SuccessMessage"].ToString()"</h5>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="row">
+            <h5 class="text-danger"  style="background-color:yellow;">"@TempData["ErrorMessage"].ToString()"</h5>
+        </div>
+    }
+    @using (Html.BeginForm("Create", "Agreement", FormMethod.Post))
+    {
+        <div class="row">
+            @Html.HiddenFor(a => a.Id)
+            <div class="form-group col-md-6">
+                <h6>Product Group <span class="text-danger">*</span></h6>
+                @Html.DropDownListFor(a => a.ProductGroupId, Model.ProductGroupList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.ProductGroupId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-6">
+                <h6>Product  <span class="text-danger">*</span></h6>
+                @Html.DropDownListFor(a => a.ProductId, Model.ProductList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.ProductId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <h6>Effective Date <span class="text-danger">*</span></h6>
+                @Html.TextBoxFor(a => a.EffectiveDate, new { @type = "date", @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.EffectiveDate, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-6">
+                <h6> Expiration Date  <span class="text-danger">*</span></h6>
+                @Html.TextBoxFor(a => a.Expiration, new { @type = "date", @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.Expiration, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-6">
+                <h6>New Price <span class="text-danger">*</span></h6>
+                @Html.TextBoxFor(a => a.NewPrice, new { @type = "number", @class = "form-control" })
+                @Html.ValidationMessageFor(a => a.NewPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-2">
+                <input type="submit" value="Save" class="form-control btn-success" />
+            </div>
+            <div class="form-group col-md-2">
+                <a href="@Url.Action("Index","Agreement")" class="form-control btn-warning">Close</a>
+                @*<input type="submit" value="Close" class="form-control btn-warning" />*@
+            </div>
+        </div>
+    }
+</div>
+@if (Model != null)
+{
+<script>
+    $(document).ready(function () {
+
+        if ("@Model.EffectiveDate" != null && "@Model.EffectiveDate" != "" && "@Model.EffectiveDate" != "1/1/0001 12:00:00 AM") {
+            document.getElementById('EffectiveDate').value = new Date('@Model.EffectiveDate.ToString("yyyy-MM-dd")').toISOString().substring(0, 10);
+        }
+        if ("@Model.Expiration" != null && "@Model.Expiration" != "" && "@Model.Expiration" != "1/1/0001 12:00:00 AM") {
+            document.getElementById('Expiration').value = new Date('@Model.Expiration.ToString("yyyy-MM-dd")').toISOString().substring(0, 10);
+            }
+
+    });
+</script>
+}

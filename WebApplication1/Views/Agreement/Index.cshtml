@@ -1,0 +1,66 @@
+﻿@model IEnumerable<WebApplication1.Entity.Agreement>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int count = 1;
+}
+
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/JS/Agreement.js"></script>
+
+<h2>Index</h2>
+
+<div class="container">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="row">
+            <h5 class="text-success" style="background-color:yellow;">"@TempData["SuccessMessage"].ToString()"</h5>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="row">
+            <h5 class="text-danger"  style="background-color:yellow;">"@TempData["ErrorMessage"].ToString()"</h5>
+        </div>
+    }
+    <div class="row">
+        <div class="form-group col-md-2 col-md-offset-10">
+            <a href="@Url.Action("Create","Agreement")" class="form-control"> New Agreement</a>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-bordered table-striped" ">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Product Group</th>
+                    <th>Product</th>
+                    <th>Effective Date</th>
+                    <th>Expiration Date</th>
+                    <th>New Price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.ToList().Count > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@count</td>
+                            <td>@item.GroupDescription</td>
+                            <td>@item.ProductDescription</td>
+                            <td>@item.EffectiveDate.ToString("dd MMM, yyyy")</td>
+                            <td>@item.Expiration.ToString("dd MMM, yyyy")</td>
+                            <td>@item.NewPrice</td>
+                            <td><a href="@Url.Action("Edit","Agreement",new { Id=item.Id})" class="form-control btn-warning"> EDIT </a> | <button class="form-control btn-danger delete-agreement" resource="@item.Id">Delete</button> </td>
+                        </tr>
+                        count++;
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
